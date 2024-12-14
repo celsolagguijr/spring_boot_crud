@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.crud_project.advices.Response;
 import com.example.crud_project.advices.APIResponse;
+import com.example.crud_project.advices.ResponseBuilder;
 import com.example.crud_project.dto.UserDTO;
 import com.example.crud_project.services.UserService;
 
@@ -29,36 +32,43 @@ public class UserController {
     }
 
     @GetMapping()
-    public ResponseEntity<APIResponse<List<UserDTO>>> getUsers() {
+    public ResponseEntity<Response<List<UserDTO>>> getUsers() {
         List<UserDTO> users = this.userService.findAll();
-        return ResponseEntity.ok(new APIResponse<List<UserDTO>>(true, "User List", users));
-
+        return ResponseEntity.ok(new ResponseBuilder<List<UserDTO>>().success().setData(users).build());
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<APIResponse<UserDTO>> getUserByUsername(@PathVariable String username) {
+    public ResponseEntity<Response<UserDTO>> getUserByUsername(@PathVariable String username) {
+        UserDTO result = this.userService.findByUsername(username);
         return ResponseEntity
-                .ok(new APIResponse<UserDTO>(true, "User Found", this.userService.findByUsername(username)));
+                .ok(new ResponseBuilder<UserDTO>().success()
+                        .setData(result).build());
     }
 
     @PostMapping()
-    public ResponseEntity<APIResponse<UserDTO>> addUser(@RequestBody UserDTO user) {
+    public ResponseEntity<Response<UserDTO>> addUser(@RequestBody UserDTO user) {
+        UserDTO result = this.userService.save(user);
         return ResponseEntity
-                .ok(new APIResponse<UserDTO>(true, "User Found", this.userService.save(user)));
+                .ok(new ResponseBuilder<UserDTO>().success()
+                        .setData(result).build());
 
     }
 
     @PutMapping()
-    public ResponseEntity<APIResponse<UserDTO>> updateUsername(@RequestBody UserDTO user) {
+    public ResponseEntity<Response<UserDTO>> updateUsername(@RequestBody UserDTO user) {
+        UserDTO result = this.userService.updateUserName(user);
         return ResponseEntity
-                .ok(new APIResponse<UserDTO>(true, "User Found", this.userService.updateUserName(user)));
+                .ok(new ResponseBuilder<UserDTO>().success()
+                        .setData(result).build());
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<APIResponse<UserDTO>> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Response<UserDTO>> deleteUser(@PathVariable Long id) {
+        UserDTO result = this.userService.deleteUser(id);
         return ResponseEntity
-                .ok(new APIResponse<UserDTO>(true, "User Found", this.userService.deleteUser(id)));
+                .ok(new ResponseBuilder<UserDTO>().success()
+                        .setData(result).build());
 
     }
 }

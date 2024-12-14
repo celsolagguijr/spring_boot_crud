@@ -11,10 +11,9 @@ import com.example.crud_project.exceptions.UserNotFoundException;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<APIResponse<String>> handleUserNotFoundException(UserNotFoundException ex) {
-
-        APIResponse<String> response = new APIResponse<String>(false, ex.getMessage(), null);
-
+    public ResponseEntity<Response<?>> handleUserNotFoundException(UserNotFoundException ex) {
+        var response = new ResponseBuilder<Response<?>>()
+                .error(new ResponseError("U00", ex.getMessage())).setCode(404).build();
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
