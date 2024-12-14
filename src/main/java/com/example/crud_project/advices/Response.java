@@ -2,6 +2,8 @@ package com.example.crud_project.advices;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import java.util.List;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response<T> {
     private boolean success;
@@ -25,6 +27,10 @@ public class Response<T> {
     }
     public void setError(ResponseError error) {
         this.error = error;
+    }
+
+    public void setFieldErrors(List<ErrorItem> fieldErrors) {
+        this.error.setFieldErrors(fieldErrors);
     }
 
     public boolean isSuccess() {

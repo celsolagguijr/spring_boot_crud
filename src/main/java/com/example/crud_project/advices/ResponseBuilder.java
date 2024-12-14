@@ -1,5 +1,7 @@
 package com.example.crud_project.advices;
 
+import java.util.List;
+
 public class ResponseBuilder<T> {
 
     private final Response<T> response = new Response<>();
@@ -24,6 +26,11 @@ public class ResponseBuilder<T> {
         response.setError(error);
         response.setSuccess(false);
         response.setCode(500);
+        return this;
+    }
+
+    public ResponseBuilder<T> addFieldErrors(List<ErrorItem> fieldErrors) {
+        response.setFieldErrors(fieldErrors);
         return this;
     }
 

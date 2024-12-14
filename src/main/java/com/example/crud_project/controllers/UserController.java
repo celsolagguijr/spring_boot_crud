@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.crud_project.advices.Response;
-import com.example.crud_project.advices.APIResponse;
 import com.example.crud_project.advices.ResponseBuilder;
 import com.example.crud_project.dto.UserDTO;
 import com.example.crud_project.services.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
@@ -46,7 +47,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public ResponseEntity<Response<UserDTO>> addUser(@RequestBody UserDTO user) {
+    public ResponseEntity<Response<UserDTO>> addUser(@RequestBody @Valid UserDTO user) {
         UserDTO result = this.userService.save(user);
         return ResponseEntity
                 .ok(new ResponseBuilder<UserDTO>().success()
