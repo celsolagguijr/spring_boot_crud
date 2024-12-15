@@ -48,7 +48,7 @@ public class UserService {
     public UserDTO updateUserName(UserDTO user) {
         User result = repository.findById(user.getId())
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
-        result.setUserName(user.getUsername());
+        result.setUsername(user.getUsername());
         return toUserDTO(repository.save(result));
     }
 
