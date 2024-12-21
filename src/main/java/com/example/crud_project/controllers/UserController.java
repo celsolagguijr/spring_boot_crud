@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.crud_project.advices.Response;
 import com.example.crud_project.advices.ResponseBuilder;
-import com.example.crud_project.dto.UserDTO;
+import com.example.crud_project.dto.user.UserDTO;
+import com.example.crud_project.dto.user.UserFetchDTO;
 import com.example.crud_project.services.UserService;
 
 import jakarta.validation.Valid;
@@ -36,6 +37,12 @@ public class UserController {
     public ResponseEntity<Response<List<UserDTO>>> getUsers() {
         List<UserDTO> users = this.userService.findAll();
         return ResponseEntity.ok(new ResponseBuilder<List<UserDTO>>().success().setData(users).build());
+    }
+
+    @GetMapping("/with-department")
+    public ResponseEntity<Response<List<UserFetchDTO>>> getUsersWithDeparment() {
+        List<UserFetchDTO> users = this.userService.findAllWithDeparment();
+        return ResponseEntity.ok(new ResponseBuilder<List<UserFetchDTO>>().success().setData(users).build());
     }
 
     @GetMapping("/{username}")

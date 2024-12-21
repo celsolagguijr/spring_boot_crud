@@ -7,7 +7,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.crud_project.dto.UserDTO;
+import com.example.crud_project.dto.user.UserDTO;
+import com.example.crud_project.dto.user.UserFetchDTO;
+import com.example.crud_project.dto.user.UserMapper;
+
 import com.example.crud_project.exceptions.UserNotFoundException;
 import com.example.crud_project.model.User;
 import com.example.crud_project.repositories.UserRepository;
@@ -21,6 +24,9 @@ public class UserService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private UserMapper userDTOMapper;
+
     UserService(UserRepository repository) {
         this.repository = repository;
     }
@@ -31,6 +37,15 @@ public class UserService {
                 .stream()
                 .map(user -> toUserDTO(user))
                 .collect(Collectors.toList());
+    }
+
+    public List<UserFetchDTO> findAllWithDeparment() {
+
+        return repository.findAll()
+                .stream()
+                .map(userDTOMapper)
+                .collect(Collectors.toList());
+
     }
 
     public UserDTO save(UserDTO user) {

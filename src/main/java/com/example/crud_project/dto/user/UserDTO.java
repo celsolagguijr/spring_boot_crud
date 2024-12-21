@@ -1,4 +1,4 @@
-package com.example.crud_project.dto;
+package com.example.crud_project.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
