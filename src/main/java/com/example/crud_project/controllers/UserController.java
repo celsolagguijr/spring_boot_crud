@@ -45,6 +45,12 @@ public class UserController {
         return ResponseEntity.ok(new ResponseBuilder<List<UserFetchDTO>>().success().setData(users).build());
     }
 
+    @GetMapping("/with-department-v2")
+    public ResponseEntity<Response<List<UserFetchDTO>>> getUsersWithDeparment2() {
+        List<UserFetchDTO> users = this.userService.findAllWithDeparment();
+        return ResponseEntity.ok(new ResponseBuilder<List<UserFetchDTO>>().success().setData(users).build());
+    }
+
     @GetMapping("/{username}")
     public ResponseEntity<Response<UserDTO>> getUserByUsername(@PathVariable String username) {
         UserDTO result = this.userService.findByUsername(username);

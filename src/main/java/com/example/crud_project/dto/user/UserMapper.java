@@ -4,6 +4,7 @@ import java.util.function.Function;
 import org.springframework.stereotype.Service;
 import com.example.crud_project.model.User;
 
+// basic mapping of model to DTO
 @Service
 public class UserMapper implements Function<User, UserFetchDTO> {
 

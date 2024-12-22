@@ -11,6 +11,8 @@ import com.example.crud_project.dto.user.UserDTO;
 import com.example.crud_project.dto.user.UserFetchDTO;
 import com.example.crud_project.dto.user.UserMapper;
 
+import com.example.crud_project.mapper.UserDTOMapper;
+
 import com.example.crud_project.exceptions.UserNotFoundException;
 import com.example.crud_project.model.User;
 import com.example.crud_project.repositories.UserRepository;
@@ -21,11 +23,17 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
+    // model mapper library
     @Autowired
     private ModelMapper modelMapper;
 
+    // basic mapper
+    // @Autowired
+    private UserMapper userMapper;
+
+    // map struct
     @Autowired
-    private UserMapper userDTOMapper;
+    private UserDTOMapper userDTOMapper;
 
     UserService(UserRepository repository) {
         this.repository = repository;
@@ -39,11 +47,22 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    // using function mapper
+    public List<UserFetchDTO> findAllWithDeparment2() {
+
+        return repository.findAll()
+                .stream()
+                .map(userMapper)
+                .collect(Collectors.toList());
+
+    }
+
+    // using map struct
     public List<UserFetchDTO> findAllWithDeparment() {
 
         return repository.findAll()
                 .stream()
-                .map(userDTOMapper)
+                .map(user -> userDTOMapper.mapToUserFetchDTO(user))
                 .collect(Collectors.toList());
 
     }
